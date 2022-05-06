@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import org.rasulov.shoppinglist.R
+import org.rasulov.shoppinglist.domain.ShopItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,8 +15,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
         viewModel.shopList.observe(this) {
+            val item = it[0]
+
 
         }
     }
 }
+

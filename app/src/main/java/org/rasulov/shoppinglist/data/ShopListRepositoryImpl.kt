@@ -10,7 +10,7 @@ object ShopListRepositoryImpl : ShopListRepository {
     private val data: MutableList<ShopItem> = mutableListOf()
     private var idCounter = 0
 
-    val liveData = MutableLiveData<List<ShopItem>>()
+    private val liveData = MutableLiveData<MutableList<ShopItem>>()
 
     override fun addShopItem(shopItem: ShopItem) {
         autoIncrementId(shopItem)
@@ -36,7 +36,7 @@ object ShopListRepositoryImpl : ShopListRepository {
 
     }
 
-    override fun getShopList(): LiveData<List<ShopItem>> {
+    override fun getShopList(): LiveData<MutableList<ShopItem>> {
         return liveData
     }
 
@@ -46,7 +46,7 @@ object ShopListRepositoryImpl : ShopListRepository {
     }
 
     private fun update() {
-        liveData.value = data.toList()
+        liveData.value = data
     }
 
 }
