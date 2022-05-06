@@ -1,8 +1,14 @@
 package org.rasulov.shoppinglist.domain
 
 data class ShopItem(
-    val id: Int,
-    val name: String,
-    val quantity: Int,
-    val isEnabled: Boolean
-)
+    var name: String,
+    var quantity: Int,
+    var isEnabled: Boolean,
+    var id: Int = UNDEFINED
+) {
+    companion object {
+        const val UNDEFINED = -1
+    }
+}
+
+

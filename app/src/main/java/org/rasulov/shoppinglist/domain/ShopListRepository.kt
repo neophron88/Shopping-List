@@ -1,14 +1,16 @@
 package org.rasulov.shoppinglist.domain
 
+import androidx.lifecycle.LiveData
+
 interface ShopListRepository {
 
-    fun addShopItemUseCase(shopItem: ShopItem)
+    fun addShopItem(shopItem: ShopItem)
 
     fun editShopItem(shopItem: ShopItem)
 
     fun getShopItem(id: Int): ShopItem
 
-    fun getShopList(): List<ShopItem>
+    fun getShopList(): LiveData<List<ShopItem>>
 
     fun removeShopItem(shopItem: ShopItem)
 
