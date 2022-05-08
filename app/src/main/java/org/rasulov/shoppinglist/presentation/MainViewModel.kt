@@ -1,5 +1,6 @@
 package org.rasulov.shoppinglist.presentation
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.rasulov.shoppinglist.data.ShopListRepositoryImpl
@@ -25,7 +26,8 @@ class MainViewModel : ViewModel() {
     }
 
     fun editShopItem(shopItem: ShopItem) {
-        editShopItemUseCase.editShopItem(shopItem.apply { isEnabled = !isEnabled })
+        val editedItem = shopItem.copy(isEnabled = !shopItem.isEnabled)
+        editShopItemUseCase.editShopItem(editedItem)
     }
 
 }

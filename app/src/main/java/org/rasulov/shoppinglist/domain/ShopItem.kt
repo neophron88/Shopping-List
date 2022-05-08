@@ -1,9 +1,9 @@
 package org.rasulov.shoppinglist.domain
 
 data class ShopItem(
-    var name: String,
-    var quantity: Int,
-    var isEnabled: Boolean,
+    val name: String,
+    val quantity: Int,
+    val isEnabled: Boolean,
     var id: Int = UNDEFINED
 ) {
     companion object {
