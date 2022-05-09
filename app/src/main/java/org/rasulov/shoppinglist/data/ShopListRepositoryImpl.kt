@@ -16,7 +16,7 @@ object ShopListRepositoryImpl : ShopListRepository {
     init {
         IntRange(0, 20).forEach {
             val element = ShopItem("name $it", it, true)
-            element.id = ++idCounter
+            element.id = idCounter++
             data.add(element)
         }
         update()

@@ -2,13 +2,13 @@ package org.rasulov.shoppinglist.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.rasulov.shoppinglist.R
+import org.rasulov.shoppinglist.presentation.rv.ShopListAdapter
+import org.rasulov.shoppinglist.presentation.rv.SwipeListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         val swipeListener = SwipeListener().apply {
             onSwipeListener = {
-                viewModel.removeShopItem(adapter.data[it])
+                viewModel.removeShopItem(adapter.currentList[it])
             }
         }
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.shopList.observe(this) {
-            adapter.data = it
+            adapter.submitList(it)
         }
 
 

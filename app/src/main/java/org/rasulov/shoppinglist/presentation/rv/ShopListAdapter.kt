@@ -1,25 +1,14 @@
-package org.rasulov.shoppinglist.presentation
+package org.rasulov.shoppinglist.presentation.rv
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import org.rasulov.shoppinglist.R
 import org.rasulov.shoppinglist.domain.ShopItem
 
-class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.Holder>() {
+class ShopListAdapter : ListAdapter<ShopItem, Holder>(ShopItemDiffCallback()) {
 
-
-    var data = listOf<ShopItem>()
-        set(value) {
-            val diffUtil = ShopListDiffCallback(field, value)
-            val calculateDiff = DiffUtil.calculateDiff(diffUtil)
-            calculateDiff.dispatchUpdatesTo(this)
-            field = value
-        }
 
     var shopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var shopItemClickListener: ((Int) -> Unit)? = null
@@ -31,8 +20,8 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-
-        val shopItem = data[position]
+        Log.d("it0088", "onBindViewHolder: $position")
+        val shopItem = getItem(position)
         holder.name.text = shopItem.name
         holder.quantity.text = shopItem.quantity.toString()
         holder.itemView.setOnLongClickListener {
@@ -50,17 +39,9 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.Holder>() {
     }
 
 
-    override fun getItemCount(): Int = data.size
-
-
     override fun getItemViewType(position: Int): Int {
-        val isEnabled = data[position].isEnabled
+        val isEnabled = getItem(position).isEnabled
         return if (isEnabled) ENABLED else DISABLED
-    }
-
-    class Holder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.name)
-        val quantity: TextView = view.findViewById(R.id.quantity)
     }
 
 

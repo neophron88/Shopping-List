@@ -1,4 +1,4 @@
-package org.rasulov.shoppinglist.presentation
+package org.rasulov.shoppinglist.presentation.rv
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
