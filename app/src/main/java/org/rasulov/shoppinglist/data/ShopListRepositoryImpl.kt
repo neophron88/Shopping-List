@@ -1,5 +1,6 @@
 package org.rasulov.shoppinglist.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.rasulov.shoppinglist.domain.ShopItem
@@ -56,7 +57,8 @@ object ShopListRepositoryImpl : ShopListRepository {
     }
 
     private fun update() {
-        liveData.value = data.toList()
+        liveData.postValue(data.toList())
+
     }
 
 }

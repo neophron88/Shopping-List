@@ -2,6 +2,7 @@ package org.rasulov.shoppinglist.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -43,12 +44,11 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.shopList.observe(this) {
+            Log.d("it0088", "observe: ")
             adapter.submitList(it)
         }
 
-
     }
-
 }
 
 
