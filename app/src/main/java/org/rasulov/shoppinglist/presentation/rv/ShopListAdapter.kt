@@ -20,7 +20,6 @@ class ShopListAdapter : ListAdapter<ShopItem, Holder>(ShopItemDiffCallback()) {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        Log.d("it0088", "onBindViewHolder: $position")
         val shopItem = getItem(position)
         holder.name.text = shopItem.name
         holder.quantity.text = shopItem.quantity.toString()
