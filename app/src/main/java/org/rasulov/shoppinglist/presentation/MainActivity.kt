@@ -27,25 +27,31 @@ class MainActivity : AppCompatActivity() {
         adapter = ShopListAdapter()
         floatBtnAdd = findViewById(R.id.floating_add_item)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+
         val swipeListener = SwipeListener().apply {
             onSwipeListener = {
                 viewModel.removeShopItem(adapter.currentList[it])
             }
         }
-
         itemTouchHelper = ItemTouchHelper(swipeListener)
         itemTouchHelper.attachToRecyclerView(recycler)
-
         recycler.adapter = adapter
-
-        adapter.shopItemLongClickListener = { it ->
+        adapter.shopItemLongClickListener = {
             viewModel.editShopItem(it)
         }
-
+        adapter.shopItemClickListener = {
+            val newIntentAddMode = ShopItemActivity.newIntentEditMode(this, it)
+            startActivity(newIntentAddMode)
+        }
 
         viewModel.shopList.observe(this) {
-            Log.d("it0088", "observe: ")
             adapter.submitList(it)
+        }
+
+        floatBtnAdd.setOnClickListener {
+            val newIntentAddMode = ShopItemActivity.newIntentEditMode(this)
+            startActivity(newIntentAddMode)
         }
 
     }

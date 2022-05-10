@@ -1,5 +1,6 @@
 package org.rasulov.shoppinglist.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,6 +35,7 @@ class ShopItemViewModel : ViewModel() {
 
     fun getShopItem(id: Int) {
         _shopItem.postValue(getShopItemUseCase.getShopItem(id))
+
     }
 
     fun addShopItem(name: String?, count: String?) {
@@ -63,21 +65,22 @@ class ShopItemViewModel : ViewModel() {
 
     private fun validate(name: String, count: Int): Boolean {
         if (name.isEmpty()) {
-            _errorInputName.postValue(false)
+            _errorInputName.postValue(true)
             return false
         }
         if (count < 1) {
-            _errorInputCount.postValue(false)
+            _errorInputCount.postValue(true)
             return false
         }
         return true
     }
 
-    public fun resetErrorInputName() {
-        _errorInputName.value = true
+    fun resetErrorInputName() {
+        Log.d("it0088", "resetErrorInputName: ")
+        _errorInputName.value = false
     }
 
-    public fun resetErrorInputCount() {
-        _errorInputCount.value = true
+    fun resetErrorInputCount() {
+        _errorInputCount.value = false
     }
 }

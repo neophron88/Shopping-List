@@ -31,9 +31,7 @@ class ShopListAdapter : ListAdapter<ShopItem, Holder>(ShopItemDiffCallback()) {
             false
         }
         holder.itemView.setOnClickListener {
-            shopItemClickListener?.let {
-
-            }
+            shopItemClickListener?.invoke(shopItem.id)
         }
     }
 
