@@ -9,6 +9,7 @@ import org.rasulov.shoppinglist.domain.AddShopItemUseCase
 import org.rasulov.shoppinglist.domain.EditShopItemUseCase
 import org.rasulov.shoppinglist.domain.GetShopItemUseCase
 import org.rasulov.shoppinglist.domain.ShopItem
+import java.lang.Exception
 
 class ShopItemViewModel : ViewModel() {
 
@@ -58,9 +59,18 @@ class ShopItemViewModel : ViewModel() {
 
     private fun areFieldsValid(name: String?, count: String?): Boolean {
         val clearedName = name?.trim() ?: ""
-        val parsedCount =
-            count?.trim()?.toInt() ?: 0  //be careful it may throw a parse exception but unlikely
+        val parsedCount = getInt(count)
         return validate(clearedName, parsedCount)
+    }
+
+    private fun getInt(count: String?): Int {
+        val s = count?.trim() ?: ""
+        return try {
+            s.toInt()
+        } catch (e: Exception) {
+            0
+        }
+
     }
 
     private fun validate(name: String, count: Int): Boolean {
@@ -76,7 +86,6 @@ class ShopItemViewModel : ViewModel() {
     }
 
     fun resetErrorInputName() {
-        Log.d("it0088", "resetErrorInputName: ")
         _errorInputName.value = false
     }
 
