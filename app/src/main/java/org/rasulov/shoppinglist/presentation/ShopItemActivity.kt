@@ -3,6 +3,7 @@ package org.rasulov.shoppinglist.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import org.rasulov.shoppinglist.R
 import java.lang.RuntimeException
@@ -14,7 +15,7 @@ class ShopItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
         validateIntent()
-
+        Log.d("it0088", "onCreate: ShopItemActivity")
     }
 
     private fun validateIntent() {
@@ -32,7 +33,7 @@ class ShopItemActivity : AppCompatActivity() {
 
             if (shopItemId != -1) {
 
-                applyFragment(ShopItemFragment.newAddMode())
+                applyFragment(ShopItemFragment.newEditMode(shopItemId))
 
                 return
 
@@ -49,8 +50,9 @@ class ShopItemActivity : AppCompatActivity() {
     private fun applyFragment(fragment: ShopItemFragment) {
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.shop_item_container, fragment)
+            .replace(R.id.shop_item_container, fragment)
             .commit()
+
     }
 
 
@@ -61,7 +63,7 @@ class ShopItemActivity : AppCompatActivity() {
         private const val MODE_EDIT = "mode_edit"
         private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
 
-        fun newIntentEditMode(context: Context): Intent {
+        fun newIntentAddMode(context: Context): Intent {
             val intent = Intent(context, ShopItemActivity::class.java)
             intent.putExtra(MODE, MODE_ADD)
             return intent
@@ -73,5 +75,15 @@ class ShopItemActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
             return intent
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("it0088", "onStart: ShopItemActivity")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("it0088", "onResume: ShopItemActivity")
     }
 }

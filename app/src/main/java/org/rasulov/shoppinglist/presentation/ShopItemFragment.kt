@@ -1,8 +1,9 @@
 package org.rasulov.shoppinglist.presentation
 
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,24 +28,36 @@ class ShopItemFragment : Fragment() {
     private var onActionSave: (() -> Unit)? = null
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("it0088", "onAttach: ")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("it0088", "onCreate: ")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("it0088", "onCreateView: ")
         return inflater.inflate(R.layout.fragment_shop_item, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.d("it0088", "onViewCreated: ")
         textInLayoutName = view.findViewById(R.id.text_input_layout_name)
         textInLayoutCount = view.findViewById(R.id.text_input_layout_count)
         edtName = view.findViewById(R.id.edt_name)
         edtCount = view.findViewById(R.id.edt_count)
         btnSave = view.findViewById(R.id.btn_save)
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
-        validateIntent()
+        validateArguments()
 
         viewModel.errorInputName.observe(viewLifecycleOwner) {
             checkTextInputLayout(textInLayoutName, it)
@@ -65,6 +78,7 @@ class ShopItemFragment : Fragment() {
             }
         }
 
+
         edtName.doBeforeTextChanged { _, _, _, _ ->
             viewModel.resetErrorInputName()
         }
@@ -78,26 +92,44 @@ class ShopItemFragment : Fragment() {
         }
     }
 
-    private fun validateIntent() {
-        val mode = ""
+    private fun validateArguments() {
+        val mode = arguments?.getString(MODE, "")
 
-        onActionSave = when (mode) {
-            MODE_ADD -> {
+        if (mode == MODE_ADD) {
+            onActionSave = {
                 viewModel.addShopItem(
                     edtName.text?.toString(),
                     edtCount.text?.toString()
                 )
             }
 
-            MODE_EDIT ->{
+        } else if (mode == MODE_EDIT) {
+            val id = arguments?.getInt(EXTRA_SHOP_ITEM_ID, -1)
+                ?: throw RuntimeException("Wrong ShopItemId")
+            viewModel.getShopItem(id)
+            onActionSave = {
                 viewModel.editShopItem(
                     edtName.text?.toString(),
                     edtCount.text?.toString()
                 )
             }
+        } else throw RuntimeException("Something went Wrong")
 
-            else  throw RuntimeException("Something went Wrong")
-        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.d("it0088", "onActivityCreated: ")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("it0088", "onStart: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("it0088", "onResume: ")
     }
 
     private fun checkTextInputLayout(textInputLayout: TextInputLayout, it: Boolean?) {
@@ -124,11 +156,11 @@ class ShopItemFragment : Fragment() {
             }
         }
 
-        fun newEditMode(shopItemId: Int): Intent {
+        fun newEditMode(shopItemId: Int): ShopItemFragment {
             return ShopItemFragment().apply {
                 arguments = Bundle().apply {
                     putString(MODE, MODE_EDIT)
-                    putString(EXTRA_SHOP_ITEM_ID, shopItemId)
+                    putInt(EXTRA_SHOP_ITEM_ID, shopItemId)
                 }
             }
         }
