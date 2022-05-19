@@ -1,6 +1,5 @@
-package org.rasulov.shoppinglist.presentation
+package org.rasulov.shoppinglist.presentation.shop_item
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,7 +35,6 @@ class ShopItemViewModel : ViewModel() {
 
     fun getShopItem(id: Int) {
         _shopItem.postValue(getShopItemUseCase.getShopItem(id))
-
     }
 
     fun addShopItem(name: String?, count: String?) {

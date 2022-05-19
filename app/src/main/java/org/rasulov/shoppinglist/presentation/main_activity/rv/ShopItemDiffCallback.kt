@@ -1,6 +1,5 @@
-package org.rasulov.shoppinglist.presentation.rv
+package org.rasulov.shoppinglist.presentation.main_activity.rv
 
-import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import org.rasulov.shoppinglist.domain.ShopItem
 

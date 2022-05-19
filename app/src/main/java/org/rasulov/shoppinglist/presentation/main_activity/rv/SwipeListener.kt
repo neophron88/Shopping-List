@@ -1,4 +1,4 @@
-package org.rasulov.shoppinglist.presentation.rv
+package org.rasulov.shoppinglist.presentation.main_activity.rv
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

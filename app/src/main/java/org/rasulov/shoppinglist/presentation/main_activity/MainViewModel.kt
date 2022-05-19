@@ -1,4 +1,4 @@
-package org.rasulov.shoppinglist.presentation
+package org.rasulov.shoppinglist.presentation.main_activity
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

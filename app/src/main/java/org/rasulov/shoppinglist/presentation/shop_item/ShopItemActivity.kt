@@ -1,4 +1,4 @@
-package org.rasulov.shoppinglist.presentation
+package org.rasulov.shoppinglist.presentation.shop_item
 
 import android.content.Context
 import android.content.Intent

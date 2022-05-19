@@ -1,10 +1,13 @@
-package org.rasulov.shoppinglist.presentation.rv
+package org.rasulov.shoppinglist.presentation.main_activity.rv
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import org.rasulov.shoppinglist.R
+import org.rasulov.shoppinglist.databinding.ItemDisabledBinding
+import org.rasulov.shoppinglist.databinding.ItemEnabledBinding
 import org.rasulov.shoppinglist.domain.ShopItem
 
 class ShopListAdapter : ListAdapter<ShopItem, Holder>(ShopItemDiffCallback()) {
@@ -15,23 +18,40 @@ class ShopListAdapter : ListAdapter<ShopItem, Holder>(ShopItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layout = if (viewType == ENABLED) R.layout.item_enabled else R.layout.item_disabled
-        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        return Holder(view)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            layout,
+            parent,
+            false
+        )
+
+        return Holder(binding)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val shopItem = getItem(position)
-        holder.name.text = shopItem.name
-        holder.quantity.text = shopItem.quantity.toString()
-        holder.itemView.setOnLongClickListener {
+        val bind = holder.binding
+
+        bind.root.setOnLongClickListener {
             shopItemLongClickListener?.let {
                 it.invoke(shopItem)
                 return@setOnLongClickListener true
             }
             false
         }
-        holder.itemView.setOnClickListener {
+        bind.root.setOnClickListener {
             shopItemClickListener?.invoke(shopItem.id)
+        }
+
+        when (bind) {
+            is ItemEnabledBinding -> {
+                bind.name.text = shopItem.name
+                bind.quantity.text = shopItem.quantity.toString()
+            }
+            is ItemDisabledBinding -> {
+                bind.name.text = shopItem.name
+                bind.quantity.text = shopItem.quantity.toString()
+            }
         }
     }
 
