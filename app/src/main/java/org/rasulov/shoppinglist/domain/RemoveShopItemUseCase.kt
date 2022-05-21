@@ -2,7 +2,7 @@ package org.rasulov.shoppinglist.domain
 
 class RemoveShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun removeShopItem(shopItem: ShopItem) {
+    suspend fun removeShopItem(shopItem: ShopItem) {
         shopListRepository.removeShopItem(shopItem)
     }
 }

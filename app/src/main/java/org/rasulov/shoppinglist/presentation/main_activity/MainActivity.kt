@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         adapter = ShopListAdapter()
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this,
+        )[MainViewModel::class.java]
 
         val swipeListener = SwipeListener().apply {
             onSwipeListener = {
