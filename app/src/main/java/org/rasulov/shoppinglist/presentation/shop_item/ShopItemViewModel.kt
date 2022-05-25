@@ -1,6 +1,7 @@
 package org.rasulov.shoppinglist.presentation.shop_item
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +65,9 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun areFieldsValid(name: String?, count: String?): Boolean {
+        for (i in 1..100000) {
+            Log.d("it0088", "areFieldsValid: ")
+        }
         val clearedName = name?.trim() ?: ""
         val parsedCount = getInt(count)
         return validate(clearedName, parsedCount)
