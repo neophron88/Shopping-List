@@ -39,6 +39,7 @@ class ShopItemFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+
         validateArguments()
         viewModel.closeActivity.observe(viewLifecycleOwner) {
             if (it == true) activity?.onBackPressed()
@@ -47,6 +48,13 @@ class ShopItemFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             onActionSave?.invoke()
         }
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("it0088", "onResume: $isStateSaved")
     }
 
     private fun validateArguments() {

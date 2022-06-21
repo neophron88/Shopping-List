@@ -1,5 +1,7 @@
 package org.rasulov.shoppinglist.presentation.main_activity.rv
 
+import android.os.Handler
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -29,6 +31,7 @@ class ShopListAdapter : ListAdapter<ShopItem, Holder>(ShopItemDiffCallback()) {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+
         val shopItem = getItem(position)
         val bind = holder.binding
 

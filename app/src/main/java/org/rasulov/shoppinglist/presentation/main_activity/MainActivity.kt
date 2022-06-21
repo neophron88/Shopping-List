@@ -2,10 +2,12 @@ package org.rasulov.shoppinglist.presentation.main_activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import org.rasulov.shoppinglist.R
 import org.rasulov.shoppinglist.databinding.ActivityMainBinding
+import org.rasulov.shoppinglist.domain.ShopItem
 import org.rasulov.shoppinglist.presentation.shop_item.ShopItemActivity
 import org.rasulov.shoppinglist.presentation.shop_item.ShopItemFragment
 import org.rasulov.shoppinglist.presentation.main_activity.rv.ShopListAdapter
@@ -51,9 +53,13 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        viewModel.shopList.observe(this) {
-            adapter.submitList(it)
-        }
+        //TODO
+        val observer: Observer<Collection<ShopItem>> =
+            Observer<Collection<ShopItem>> {
+                adapter.submitList(it as List<ShopItem>)
+            }
+
+        viewModel.shopList.observe(this, observer)
 
         binding.floatingAddItem.setOnClickListener {
             if (binding.shopItemContainer != null) {
