@@ -3,24 +3,22 @@ package org.rasulov.shoppinglist.presentation.shop_item
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.rasulov.shoppinglist.data.ShopListRepositoryImpl
 import org.rasulov.shoppinglist.domain.AddShopItemUseCase
 import org.rasulov.shoppinglist.domain.EditShopItemUseCase
 import org.rasulov.shoppinglist.domain.GetShopItemUseCase
 import org.rasulov.shoppinglist.domain.ShopItem
 import java.lang.Exception
+import javax.inject.Inject
 
-class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
+class ShopItemViewModel @Inject constructor(
+    application: Application,
+    private val getShopItemUseCase: GetShopItemUseCase,
+    private val editShopItemUseCase: EditShopItemUseCase,
+    private val addShopItemUseCase: AddShopItemUseCase
+) : ViewModel() {
 
-    private val repository = ShopListRepositoryImpl(application)
-
-    private val getShopItemUseCase = GetShopItemUseCase(repository)
-    private val editShopItemUseCase = EditShopItemUseCase(repository)
-    private val addShopItemUseCase = AddShopItemUseCase(repository)
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean> get() = _errorInputName
@@ -65,9 +63,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun areFieldsValid(name: String?, count: String?): Boolean {
-        for (i in 1..100000) {
-            Log.d("it0088", "areFieldsValid: ")
-        }
+
         val clearedName = name?.trim() ?: ""
         val parsedCount = getInt(count)
         return validate(clearedName, parsedCount)

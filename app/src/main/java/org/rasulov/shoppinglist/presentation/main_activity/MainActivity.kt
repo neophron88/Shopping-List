@@ -8,10 +8,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import org.rasulov.shoppinglist.R
 import org.rasulov.shoppinglist.databinding.ActivityMainBinding
 import org.rasulov.shoppinglist.domain.ShopItem
+import org.rasulov.shoppinglist.presentation.ShopApplication
+import org.rasulov.shoppinglist.presentation.ViewModelFactory
 import org.rasulov.shoppinglist.presentation.shop_item.ShopItemActivity
 import org.rasulov.shoppinglist.presentation.shop_item.ShopItemFragment
 import org.rasulov.shoppinglist.presentation.main_activity.rv.ShopListAdapter
 import org.rasulov.shoppinglist.presentation.main_activity.rv.SwipeListener
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,15 +24,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+
+    private val component by lazy {
+        (application as ShopApplication).component
+    }
+
+    @Inject
+    lateinit var factory: ViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         adapter = ShopListAdapter()
-        viewModel = ViewModelProvider(
-            this,
-        )[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         val swipeListener = SwipeListener().apply {
             onSwipeListener = {
@@ -53,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        //TODO
+
         val observer: Observer<Collection<ShopItem>> =
             Observer<Collection<ShopItem>> {
                 adapter.submitList(it as List<ShopItem>)

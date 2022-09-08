@@ -1,8 +1,9 @@
 package org.rasulov.shoppinglist.data.db
 
 import org.rasulov.shoppinglist.domain.ShopItem
+import javax.inject.Inject
 
-class ShopListMapper {
+class ShopListMapper @Inject constructor() {
 
     fun mapEntityToDBModel(it: ShopItem) =
         ShopItemDBModel(

@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import org.rasulov.shoppinglist.databinding.FragmentShopItemBinding
 import org.rasulov.shoppinglist.databinding.FragmentShopItemBindingImpl
+import org.rasulov.shoppinglist.presentation.ShopApplication
+import org.rasulov.shoppinglist.presentation.ViewModelFactory
 import java.lang.RuntimeException
+import javax.inject.Inject
 
 class ShopItemFragment : Fragment() {
 
@@ -23,6 +26,21 @@ class ShopItemFragment : Fragment() {
 
     private var onActionSave: (() -> Unit)? = null
 
+
+    private val component by lazy {
+        (requireActivity().application as ShopApplication).component
+    }
+
+    @Inject
+     lateinit var factory: ViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
+
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,7 +53,7 @@ class ShopItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
+        viewModel = ViewModelProvider(this,factory)[ShopItemViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
